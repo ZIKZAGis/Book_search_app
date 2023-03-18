@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
+import { Link } from "react-router-dom";
 
-const KEY_API = '&key=AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
+const KEY_API = 'AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
 
 const App = () => {
   const [search, setSearch] = useState(' ')
@@ -69,15 +70,16 @@ const App = () => {
         <div className="grid grid-cols-4 gap-10">
           {result.map(book => (
             <div className="bg-slate-500 rounded-md w-full px-3 py-5" key={book.id}>
-              {/* <img src={book.volumeInfo.imageLinks.thumbnail} alt={book.volumeInfo.title} width={150}/> */}
-              <img
-                className="block mx-auto object-cover shadow-2xl drop-shadow-xl mb-3"
-                src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'https://i.pinimg.com/originals/aa/b0/dd/aab0dd7a13205ce05bff5ea2f2db866a.jpg'} 
-                alt={book.volumeInfo.title} width={150}
-              />
-              {book.volumeInfo.categories && <div className="text-zinc-300 underline text-xs mb-2">{book.volumeInfo.categories[0]}</div>}
-              <h2 className="text-base text-white font-semibold mb-2">{book.volumeInfo.title}</h2>
-              {book.volumeInfo.authors && <p className="text-zinc-300 text-sm">{book.volumeInfo.authors.join(', ')}</p>}
+              <Link to={`/book/${book.id}`}>
+                <img
+                  className="block mx-auto object-cover shadow-2xl drop-shadow-xl mb-3"
+                  src={book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.thumbnail : 'https://i.pinimg.com/originals/aa/b0/dd/aab0dd7a13205ce05bff5ea2f2db866a.jpg'} 
+                  alt={book.volumeInfo.title} width={150}
+                />
+                {book.volumeInfo.categories && <div className="text-zinc-300 underline text-xs mb-2">{book.volumeInfo.categories[0]}</div>}
+                <h2 className="text-base text-white font-semibold mb-2">{book.volumeInfo.title}</h2>
+                {book.volumeInfo.authors && <p className="text-zinc-300 text-sm">{book.volumeInfo.authors.join(', ')}</p>}
+              </Link>
             </div>
           ))}
         </div>
