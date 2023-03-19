@@ -12,7 +12,6 @@ const BookDetail = () => {
 
         const fetchData = async (id) => {
             const data = await BookService.getById(id)
-            console.log(data)
             setBook(data)
         }
 
@@ -20,12 +19,40 @@ const BookDetail = () => {
 
     }, [id])
 
+    console.log(book)
+
     if(!book) return <p>Loading...</p>
     
     return (
         <>
-            <Link to='/'>Back</Link>
-            <div>Идентификатор: {book.id}</div>
+            {book.volumeInfo && 
+                <div className="bg-slate-600 p-10 min-h-screen">
+                    <Link className="block mb-5" to='/'>
+                        <img 
+                            src="https://cdn-icons-png.flaticon.com/512/17/17699.png" 
+                            alt="back"  
+                            width={40} 
+                            height={40}/>
+                    </Link>
+                    <div className="flex">
+                        <div className="p-10 bg-slate-500 mr-10 w-1/4 rounded-xl">
+                            <img 
+                                className="block mx-auto shadow-2xl drop-shadow-xl" 
+                                src={book.volumeInfo.imageLinks.thumbnail} 
+                                alt={book.volumeInfo.title} 
+                                width={300}
+                                height={500}
+                            />
+                        </div>
+                    <div className="w-3/4">
+                        {book.volumeInfo.categories && <div className="text-zinc-300 text-xm mb-2">{book.volumeInfo.categories.join('/')}</div>}
+                        {book.volumeInfo.title && <h1 className="text-2xl mb-5 text-white font-bold">{book.volumeInfo.title}</h1>}
+                        {book.volumeInfo.authors && <p className="text-zinc-300 text-sm underline mb-5">{book.volumeInfo.authors.join(', ')}</p>}
+                        {book.volumeInfo.description && <div className="text-white text-lg border-2 rounded-xl p-3">{book.volumeInfo.description}</div>}
+                    </div>
+                </div>
+                </div>
+            }
         </>
     )
 }
