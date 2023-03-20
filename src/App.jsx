@@ -1,28 +1,40 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
 
-const KEY_API = 'AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
+const KEY_API = '&key=AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
 
 const App = () => {
-  const [search, setSearch] = useState(' ')
+  const [searchString, setSearchString] = useState('')
+  const [category, setCategory] = useState('')
+  const [sorting, setSorting] = useState('&orderBy=relevance')
   const [books, setBooks] = useState([])
   const [result, setResult] = useState([])
 
-  useEffect(() => {
-    console.log(books)
-  }, [books])
-
   const handleChange = (e) => {
     const searchValue = e.target.value
-    setSearch(searchValue)
+    setSearchString(`intitle:${searchValue}`)
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const data = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${KEY_API}&maxResults=30`)
-    setResult(data.data.items)
-    setBooks(data.data)
+    if (searchString.length > 0) {
+      const data = await axios.get
+        (`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}&maxResults=30`)
+        .catch(err => console.log(err))
+      setResult(data.data.items)
+      setBooks(data.data)
+    }
+  }
+
+  const handleChangeCategory = (e) => {
+    const categooryCheck = e.target.value
+    setCategory(categooryCheck.length > 0 ? `+subject:${categooryCheck}` : '')
+  }
+
+  const handleChangeSorting = (e) => {
+    const sortingCheck = e.target.value
+    setSorting(`&orderBy=${sortingCheck}`)
   }
 
   return (
@@ -44,8 +56,12 @@ const App = () => {
             <div className="mb-5 flex">
               <div className="mr-10">
                 <span className="mr-2 text-white">category:</span>
-                <select name="category" id="1">
-                  <option value="all" defaultChecked>all</option>
+                <select 
+                  name="category" 
+                  id="1"
+                  onChange={handleChangeCategory}
+                >
+                  <option value="" defaultValue>all</option>
                   <option value="art">art</option>
                   <option value="biography">biography</option>
                   <option value="computers">computers</option>
@@ -56,8 +72,12 @@ const App = () => {
               </div>
               <div>
                 <span className="mr-2 text-white">sortyng by:</span>
-                <select name="sorting" id="2">
-                  <option value="relevance" defaultChecked>relevance</option>
+                <select 
+                  name="sorting" 
+                  id="2"
+                  onChange={handleChangeSorting}
+                >
+                  <option value="relevance" defaultValue>relevance</option>
                   <option value="newest">newest</option>
                 </select>
               </div>
@@ -67,7 +87,8 @@ const App = () => {
         <div className="text-center text-cyan-300 font-bold mb-5">
           Found {!!books.totalItems ? books.totalItems : 0} results
         </div>
-        <div className="grid grid-cols-4 gap-10">
+        {result && 
+          <div className="grid grid-cols-4 gap-10">
           {result.map(book => (
             <div className="bg-slate-500 rounded-md w-full px-3 py-5" key={book.id}>
               <Link to={`/book/${book.id}`}>
@@ -83,6 +104,7 @@ const App = () => {
             </div>
           ))}
         </div>
+        }
       </div>
     </div>
   );
