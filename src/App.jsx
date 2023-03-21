@@ -10,10 +10,11 @@ const App = () => {
   const [sorting, setSorting] = useState('&orderBy=relevance')
   const [books, setBooks] = useState([])
   const [result, setResult] = useState([])
+  const [startindex, setStartIndex] = useState(31)
 
   const handleChange = (e) => {
     const searchValue = e.target.value
-    setSearchString(`intitle:${searchValue}`)
+    setSearchString(searchValue)
   }
 
   const handleSubmit = async (e) => {
@@ -35,6 +36,15 @@ const App = () => {
   const handleChangeSorting = (e) => {
     const sortingCheck = e.target.value
     setSorting(`&orderBy=${sortingCheck}`)
+  }
+
+  const handleMore = async () => {
+    const data = await axios.get
+      (`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}&maxResults=30&startIndex=${startindex}`)
+      .catch(err => console.log(err))
+    const moreResult = [...result, ...data.data.items]
+    setResult(moreResult)
+    setStartIndex(startindex + 30)
   }
 
   return (
@@ -88,7 +98,7 @@ const App = () => {
           Found {!!books.totalItems ? books.totalItems : 0} results
         </div>
         {result && 
-          <div className="grid grid-cols-4 gap-10">
+          <div className="grid grid-cols-4 gap-10 mb-10">
           {result.map(book => (
             <div className="bg-slate-500 rounded-md w-full px-3 py-5" key={book.id}>
               <Link to={`/book/${book.id}`}>
@@ -104,6 +114,16 @@ const App = () => {
             </div>
           ))}
         </div>
+        }
+        {books.totalItems > 30 & books.totalItems >= startindex ?  
+          <button 
+            className="text-white font-bold border-2 rounded-xl px-4 py-2" 
+            type="button"
+            onClick={handleMore}
+          >
+            Load more
+          </button>
+          : ''
         }
       </div>
     </div>
