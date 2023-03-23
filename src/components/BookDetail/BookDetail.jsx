@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { BookService } from "./services/book.services"
+import { BookService } from "../../services/book.services"
 import { Link } from "react-router-dom"
 
 const BookDetail = () => {
@@ -18,8 +18,6 @@ const BookDetail = () => {
         fetchData(id)
 
     }, [id])
-
-    console.log(book)
 
     if(!book) return <p>Loading...</p>
     

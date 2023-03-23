@@ -1,6 +1,6 @@
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
-import App from './App'
-import BookDetail from './BookDetail'
+import App from '../App/App'
+import BookDetail from '../BookDetail/BookDetail'
 
 const Router = () => {
     return <BrowserRouter>
