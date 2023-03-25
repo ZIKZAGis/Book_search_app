@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { BookService } from "../../services/book.services"
 import { Link } from "react-router-dom"
+import { MdArrowBackIos } from 'react-icons/md'
 
 const BookDetail = () => {
     const {id} = useParams()
@@ -26,11 +27,7 @@ const BookDetail = () => {
             {book.volumeInfo && 
                 <div className="bg-slate-600 p-10 min-h-screen">
                     <Link className="block mb-5" to='/'>
-                        <img 
-                            src="https://cdn-icons-png.flaticon.com/512/17/17699.png" 
-                            alt="back"  
-                            width={40} 
-                            height={40}/>
+                        <MdArrowBackIos size={40}/>
                     </Link>
                     <div className="flex">
                         <div className="p-10 bg-slate-500 mr-10 w-1/4 rounded-xl">
