@@ -1,6 +1,38 @@
 .miniature {
     width: 100%;
     border-radius: 10px;
-    padding: 20px;
-    background-color: slategrey;
+    padding: 30px 20px;
+    background-color: #2B2A3A;
+
+    @media (max-width: 1199px) {
+        padding: 30px;
+    }
+}
+
+.img {
+    display: block;
+    object-fit: cover;
+    height: 250px;
+    width: auto;
+    margin: 0 auto 20px;
+    box-shadow: 5px 5px 10px;
+}
+
+.category {
+    font-size: 12px;
+    color: #83829A;
+    text-decoration: underline;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.author {
+    font-size: 14px;
+    color: #7B7A9A;
 }

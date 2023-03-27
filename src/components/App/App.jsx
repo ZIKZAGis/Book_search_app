@@ -4,6 +4,7 @@ import SearchForm from "../Seacrh/SearchForm";
 import BookMiniature from "../BookMiniature/BookMiniature";
 import TotalItems from "../TotalItems/TotalItems";
 import ShowMoreBtn from "../ShowMore/ShowMoreBtn";
+import styles from './style.module.scss'
 
 const KEY_API = '&key=AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
 
@@ -51,28 +52,30 @@ const App = () => {
   }
 
   return (
-    <div className="bg-slate-600 p-10 min-h-screen">
-      <h1 className="text-xl mb-5 text-center text-cyan-300 font-bold">Book Search App</h1>
-      <div>
-        <SearchForm
-          submit={handleSubmit}
-          change={handleChange}
-          changeCategory={handleChangeCategory}
-          changeSorting={handleChangeSorting}
-        />
+    <div className={styles.app}>
+      <div className={styles.wrapper}>
+        <h1 className={styles.title}>Book Search App</h1>
+        <div>
+          <SearchForm
+            submit={handleSubmit}
+            change={handleChange}
+            changeCategory={handleChangeCategory}
+            changeSorting={handleChangeSorting}
+          />
+        </div>
+        {books.totalItems && <TotalItems books={books} />}
+        {result && 
+          <div className={styles.grid}>
+            {result.map(book => (
+              <BookMiniature book={book} key={book.id} />
+            ))}
+        </div>
+        }
+        {books.totalItems > 30 & books.totalItems >= startindex ?  
+          <ShowMoreBtn showMore={handleMore} />
+          : ''
+        }
       </div>
-      {books.totalItems && <TotalItems books={books} />}
-      {result && 
-        <div className="grid grid-cols-4 gap-10 mb-10">
-          {result.map(book => (
-            <BookMiniature book={book} key={book.id} />
-          ))}
-      </div>
-      }
-      {books.totalItems > 30 & books.totalItems >= startindex ?  
-        <ShowMoreBtn showMore={handleMore} />
-        : ''
-      }
     </div>
   );
 }
