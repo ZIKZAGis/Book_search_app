@@ -6,7 +6,7 @@
     overflow: hidden;
     border-radius: 10px;
     background-color: transparent;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
 }
 
 .input {
@@ -24,25 +24,25 @@
 }
 
 .button {
-    color:#83829A;
+    color: white;
     padding: 10px;
     transition: all ease .3s;
 
     &:hover {
         background-color: #2B2A3A;
-        color: white;
+        color: #83829A;
     }
 
     &:active {
         background-color: #0F0E26;
-        color: white;
+        color: #83829A;
     }
 }
 
 .select_field {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 
     div:first-child {
         margin-right: 40px;

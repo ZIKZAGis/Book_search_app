@@ -29,6 +29,7 @@ const App = () => {
         .catch(err => console.log(err))
       setResult(data.data.items)
       setBooks(data.data)
+      console.log(books)
     }
   }
 
@@ -63,7 +64,7 @@ const App = () => {
             changeSorting={handleChangeSorting}
           />
         </div>
-        {books.totalItems && <TotalItems books={books} />}
+        {!!books.totalItems && <TotalItems books={books} />}
         {result && 
           <div className={styles.grid}>
             {result.map(book => (
