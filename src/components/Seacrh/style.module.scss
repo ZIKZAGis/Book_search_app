@@ -26,9 +26,11 @@
 .button {
     color: white;
     padding: 10px;
+    outline: none;
     transition: all ease .3s;
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: #2B2A3A;
         color: #83829A;
     }
@@ -63,10 +65,11 @@
     padding: 5px;
     cursor: pointer;
     transition: all ease .3s;
-    outline: none;
     border-radius: 8px;
+    outline: none;
 
     &:hover,
+    &:focus,
     &:active {
         background-color: #2B2A3A;
     }

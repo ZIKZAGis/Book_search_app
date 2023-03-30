@@ -6,7 +6,8 @@
     border-radius: 10px;
     transition: all ease .3s;
 
-    &:hover {
+    &:hover,
+    &:focus {
         background-color: #2B2A3A;
         color: #83829A;
         border-color: #83829A;

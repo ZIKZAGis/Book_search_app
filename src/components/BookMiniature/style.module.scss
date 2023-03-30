@@ -1,8 +1,27 @@
 .miniature {
+    position: relative;
+    right: 0;
+    bottom: 0;
     width: 100%;
     border-radius: 10px;
     padding: 30px 20px;
     background-color: #2B2A3A;
+    transition: all ease .3s;
+    outline: none;
+
+    &:hover,
+    &:focus {
+        right: 2px;
+        bottom: 5px;
+        box-shadow: 5px 5px 10px 0;
+    }
+
+    &:active {
+        background-color: lighten(#2B2A3A, 5%);
+        right: 2px;
+        bottom: 5px;
+        box-shadow: 5px 5px 10px 0;
+    }
 
     @media (max-width: 1199px) {
         padding: 30px;
