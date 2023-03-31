@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from 'axios'
 import SearchForm from "../Seacrh/SearchForm";
 import BookMiniature from "../BookMiniature/BookMiniature";
@@ -9,28 +9,34 @@ import styles from './style.module.scss'
 const KEY_API = '&key=AIzaSyAEarQTsRJWBbtcx-Z8o57eMtMDBLO_nTA'
 
 const App = () => {
+  const [link, setLink] = useState('')
   const [searchString, setSearchString] = useState('')
   const [category, setCategory] = useState('')
   const [sorting, setSorting] = useState('&orderBy=relevance')
   const [books, setBooks] = useState([])
   const [result, setResult] = useState([])
-  const [startindex, setStartIndex] = useState(31)
+  const [startindex, setStartIndex] = useState(10)
+
+  useEffect(() => {
+    setLink(`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}`)
+  }, [searchString, category, sorting])
+
+  const getLink = async () => {
+    if (searchString.length > 0) {
+      const data = await axios.get(link).catch(err => console.log(err))
+      setResult(data.data.items)
+      setBooks(data.data)
+    }
+  }
 
   const handleChange = (e) => {
     const searchValue = e.target.value
     setSearchString(searchValue)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    if (searchString.length > 0) {
-      const data = await axios.get
-        (`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}&maxResults=30`)
-        .catch(err => console.log(err))
-      setResult(data.data.items)
-      setBooks(data.data)
-      console.log(books)
-    }
+    getLink()
   }
 
   const handleChangeCategory = (e) => {
@@ -44,12 +50,10 @@ const App = () => {
   }
 
   const handleMore = async () => {
-    const data = await axios.get
-      (`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}&maxResults=30&startIndex=${startindex}`)
-      .catch(err => console.log(err))
+    const data = await axios.get(`${link}&startIndex=${startindex}`).catch(err => console.log(err))
     const moreResult = [...result, ...data.data.items]
     setResult(moreResult)
-    setStartIndex(startindex + 30)
+    setStartIndex(startindex + 10)
   }
 
   return (
@@ -72,7 +76,7 @@ const App = () => {
             ))}
         </div>
         }
-        {books.totalItems > 30 & books.totalItems >= startindex ?  
+        {books.totalItems > 10 & books.totalItems >= startindex ?  
           <ShowMoreBtn showMore={handleMore} />
           : ''
         }
