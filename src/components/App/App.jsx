@@ -13,7 +13,7 @@ const App = () => {
   const [searchString, setSearchString] = useState('')
   const [category, setCategory] = useState('')
   const [sorting, setSorting] = useState('&orderBy=relevance')
-  const [books, setBooks] = useState([])
+  const [totalItems, setTotalItems] = useState('')
   const [result, setResult] = useState([])
   const [startindex, setStartIndex] = useState(10)
 
@@ -25,8 +25,10 @@ const App = () => {
     if (searchString.length > 0) {
       const data = await axios.get(link).catch(err => console.log(err))
       setResult(data.data.items)
-      setBooks(data.data)
+      setTotalItems(data.data.totalItems)
     }
+
+    console.log(result, totalItems)
   }
 
   const handleChange = (e) => {
@@ -68,7 +70,7 @@ const App = () => {
             changeSorting={handleChangeSorting}
           />
         </div>
-        {!!books.totalItems && <TotalItems books={books} />}
+        {!!totalItems && <TotalItems total={totalItems} />}
         {result && 
           <div className={styles.grid}>
             {result.map(book => (
@@ -76,7 +78,7 @@ const App = () => {
             ))}
         </div>
         }
-        {books.totalItems > 10 & books.totalItems >= startindex ?  
+        {totalItems > 10 & totalItems >= startindex ?  
           <ShowMoreBtn showMore={handleMore} />
           : ''
         }

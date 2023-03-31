@@ -1,9 +1,9 @@
 import styles from './style.module.scss'
 
-const TotalItems = ({books}) => {
+const TotalItems = ({total}) => {
     return (
         <div className={styles.total}>
-          {`Found ${books.totalItems} results`}
+          {`Found ${total} results`}
         </div> 
     )
 }
