@@ -21,14 +21,11 @@ const App = () => {
     setLink(`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}`)
   }, [searchString, category, sorting])
 
-  const getLink = async () => {
-    if (searchString.length > 0) {
-      const data = await axios.get(link).catch(err => console.log(err))
-      setResult(data.data.items)
-      setTotalItems(data.data.totalItems)
-    }
 
-    console.log(result, totalItems)
+  const getData = async() => {
+    const data = await axios.get(link).catch(err => console.log(err))
+    setResult(data.data.items)
+    setTotalItems(data.data.totalItems)
   }
 
   const handleChange = (e) => {
@@ -38,7 +35,10 @@ const App = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    getLink()
+    if (searchString.length > 0) {
+      getData()
+      console.log(`Total: ${totalItems}`, result)
+    }
   }
 
   const handleChangeCategory = (e) => {

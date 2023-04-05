@@ -19,7 +19,7 @@ const SearchForm = ({submit, change, changeCategory, changeSorting}) => {
                 </div>
                 <div className={styles.select_field}>
                     <div>
-                        <span>Category:</span>
+                        <span className={styles.sorting}>Category:</span>
                         <select 
                             className={styles.select}
                             name="category" 
@@ -36,7 +36,7 @@ const SearchForm = ({submit, change, changeCategory, changeSorting}) => {
                         </select>
                     </div>
                     <div>
-                        <span>Sortyng by:</span>
+                        <span className={styles.sorting}>Sortyng by:</span>
                         <select 
                             className={styles.select}
                             name="sorting" 
