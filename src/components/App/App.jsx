@@ -15,7 +15,8 @@ const App = () => {
   const [sorting, setSorting] = useState('&orderBy=relevance')
   const [totalItems, setTotalItems] = useState('')
   const [result, setResult] = useState([])
-  const [startindex, setStartIndex] = useState(10)
+  const [startIndex, setStartIndex] = useState(10)
+
 
   useEffect(() => {
     setLink(`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}`)
@@ -24,7 +25,11 @@ const App = () => {
 
   const getData = async() => {
     const data = await axios.get(link).catch(err => console.log(err))
-    setResult(data.data.items)
+    const searchResult = data.data.items.reduce((arr, el) => 
+      // eslint-disable-next-line no-sequences
+      ((arr.find(({id}) => el.id === id) || arr.push(el)), arr), []
+    )
+    setResult(searchResult)
     setTotalItems(data.data.totalItems)
   }
 
@@ -37,13 +42,12 @@ const App = () => {
     e.preventDefault()
     if (searchString.length > 0) {
       getData()
-      console.log(`Total: ${totalItems}`, result)
     }
   }
 
   const handleChangeCategory = (e) => {
-    const categooryCheck = e.target.value
-    setCategory(categooryCheck.length > 0 ? `+subject:${categooryCheck}` : '')
+    const categoryCheck = e.target.value
+    setCategory(categoryCheck.length > 0 ? `+subject:${categoryCheck}` : '')
   }
 
   const handleChangeSorting = (e) => {
@@ -52,10 +56,13 @@ const App = () => {
   }
 
   const handleMore = async () => {
-    const data = await axios.get(`${link}&startIndex=${startindex}`).catch(err => console.log(err))
-    const moreResult = [...result, ...data.data.items]
+    const data = await axios.get(`${link}&startIndex=${startIndex}`).catch(err => console.log(err))
+    const moreResult = [...result, ...data.data.items].reduce((arr, el) => 
+    // eslint-disable-next-line no-sequences
+      ((arr.find(({id}) => el.id === id) || arr.push(el)), arr), []
+    )
+    setStartIndex(startIndex + 10)
     setResult(moreResult)
-    setStartIndex(startindex + 10)
   }
 
   return (
@@ -78,7 +85,7 @@ const App = () => {
             ))}
         </div>
         }
-        {totalItems > 10 & totalItems >= startindex ?  
+        {totalItems > 10 & totalItems >= startIndex ?  
           <ShowMoreBtn showMore={handleMore} />
           : ''
         }

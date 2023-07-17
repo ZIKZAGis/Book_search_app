@@ -10,7 +10,9 @@ const BookMiniature = ({book}, key) => {
         alt={book.volumeInfo.title} width={150}
       />
       {book.volumeInfo.categories && <div className={styles.category}>{book.volumeInfo.categories[0]}</div>}
-      <h2 className={styles.title}>{book.volumeInfo.title}</h2>
+      <h2 className={styles.title}>
+        {book.volumeInfo.title.length < 55 ? book.volumeInfo.title : book.volumeInfo.title.substring(0, 55) + '...'}
+      </h2>
       {book.volumeInfo.authors && <p className={styles.author}>{book.volumeInfo.authors.join(', ')}</p>}
     </Link>
 
