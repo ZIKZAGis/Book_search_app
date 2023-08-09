@@ -22,7 +22,6 @@ const App = () => {
     setLink(`https://www.googleapis.com/books/v1/volumes?q=${searchString}${category}${sorting}${KEY_API}`)
   }, [searchString, category, sorting])
 
-
   const getData = async() => {
     const data = await axios.get(link).catch(err => console.log(err))
     const searchResult = data.data.items.reduce((arr, el) => 
