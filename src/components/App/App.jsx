@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from 'axios'
-import SearchForm from "../Seacrh/SearchForm";
+import SearchForm from "../Search/SearchForm";
 import BookMiniature from "../BookMiniature/BookMiniature";
 import TotalItems from "../TotalItems/TotalItems";
 import ShowMoreBtn from "../ShowMore/ShowMoreBtn";
@@ -68,7 +68,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       <div className={styles.wrapper}>
-        <h1 className={styles.title}>Book Search App</h1>
+        <h1 className={styles.main_title}>Book Search App</h1>
         <div>
           <SearchForm
             submit={handleSubmit}
@@ -78,6 +78,7 @@ const App = () => {
           />
         </div>
         {!!totalItems && <TotalItems total={totalItems} />}
+        {result < 1 && <h2 className={styles.title}>Finds any book</h2>}
         {result && 
           <div className={styles.grid}>
             {result.map(book => (

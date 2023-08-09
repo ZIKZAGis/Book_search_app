@@ -45,7 +45,7 @@ const BookDetail = () => {
                                 {!!book.volumeInfo.title && <h1 className={styles.title}>{book.volumeInfo.title}</h1>}
                                 {!!book.volumeInfo.categories && <p className={styles.category}>{book.volumeInfo.categories.join(' / ')}</p>}
                                 {!!book.volumeInfo.authors && <p className={styles.author}>{book.volumeInfo.authors.join(', ')}</p>}
-                                {!!book.volumeInfo.description && <p className={styles.description}>{book.volumeInfo.description}</p>}
+                                {!!book.volumeInfo.description && <div className={styles.description} dangerouslySetInnerHTML={{__html: book.volumeInfo.description}}></div>}
                             </div>
                         </div>
                     </div>

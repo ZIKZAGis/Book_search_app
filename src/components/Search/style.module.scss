@@ -39,6 +39,10 @@
         background-color: #0F0E26;
         color: #83829A;
     }
+
+    &:disabled {
+        opacity: 0.1;
+    }
 }
 
 .select_field {

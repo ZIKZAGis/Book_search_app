@@ -18,12 +18,21 @@
     }
 }
 
-.title {
+.main_title {
     text-align: center;
     font-weight: bold;
     font-size: 32px;
     color: #7B7A9A;
     margin-bottom: 40px;
+}
+
+.title {
+    display: block;
+    margin: 100px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 38px;
+    color: lighten(#7B7A9A, 25);
 }
 
 .grid {
